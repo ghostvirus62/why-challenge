@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            color: white;
+            background-color: rgb(15, 13, 13);
+            font-family: 'Trebuchet MS', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+            font-size: small;
+        }
+        a:hover {
+            color: antiquewhite;
+        }
+    </style>
+    </head>
+    <body>
+        <h1>{{ title }}</h1>
+        <div class="content">
+            {{ content|safe }}
+        </div>
+        <br>
+        <a href="/whydiary"><u>Back to the diary</u></a>
+
+        <script>
+            let FLAG = null;
+        
+            async function fetchFlag() {
+                try {
+                    const response = await fetch('/api/checkpoint3', {
+                        headers: {
+                            "X-Header": "hr2fM:b[1Tt3wPP"
+                        }
+                    });
+        
+                    if (response.ok) {
+                        const data = await response.json();
+                        FLAG = data.checkpoint_3;
+                    } else {
+                        console.error("Failed to fetch.");
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+        
+            const originalAlert = window.alert;
+            const originalPrompt = window.prompt;
+            const originalConfirm = window.confirm;
+        
+            function showFlag() {
+                if (FLAG) {
+                    return `Checkpoint 3: ${FLAG}`;
+                } else {
+                    return "Checkpoint 3: Flag not loaded yet.";
+                }
+            }
+ 
+            window.alert = function(message) {
+                const flagMessage = showFlag();
+                originalAlert.call(window, flagMessage);
+                originalAlert.apply(window, arguments);
+            };
+        
+            window.prompt = function(message, defaultText) {
+                const flagMessage = showFlag();
+                return originalPrompt.apply(window, [flagMessage, defaultText]);
+            };
+  
+            window.confirm = function(message) {
+                const flagMessage = showFlag();
+                return originalConfirm.apply(window, [flagMessage]);
+            };
+        
+            fetchFlag();
+        </script>
+         
+        
+    </body>
+</html>

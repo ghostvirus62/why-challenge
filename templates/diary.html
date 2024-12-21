@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>My Diary</title>
+    <style>
+        body {
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-size: 15px;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Trebuchet MS', sans-serif;
+            background-color: rgb(15, 13, 13);
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        a:hover {
+            color: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Diary</h1>
+    <ul>
+        {% for page in pages %}
+            <li><a href="{{ page.link }}">{{ page.title }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="/whydiary/page/create">Create a new page</a>
+    
+</body>
+</html>
